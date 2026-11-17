@@ -1,0 +1,7 @@
+﻿indicador,definição,fórmula,tabela
+Ocorrências,Acidentes registrados pela PRF,COUNT(fato_ocorrencia),fato_ocorrencia
+Envolvidos,Pessoas registradas nas ocorrências,COUNT(fato_envolvido),fato_envolvido
+Óbitos,Envolvidos com estado físico = Óbito,SUM(obito),fato_envolvido
+% de ocorrências fatais,Ocorrências com ao menos um morto,ocorrências com mortos > 0 ÷ ocorrências,fato_ocorrencia
+Taxa de letalidade,Proporção de envolvidos que morreram,óbitos ÷ envolvidos com estado físico informado,fato_envolvido
+Índice de gravidade,Proporção de envolvidos mortos ou com lesões graves,(óbitos + lesões graves) ÷ envolvidos com estado físico informado,fato_envolvido
