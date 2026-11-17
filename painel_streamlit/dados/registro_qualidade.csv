@@ -1,0 +1,20 @@
+﻿base,verificação,registros_afetados,tratamento
+ocorrencias,Linhas totalmente duplicadas,0,Remover duplicatas exatas
+ocorrencias,id nulo,0,Remover (sem chave não há como cruzar)
+pessoas,Linhas totalmente duplicadas,0,Remover duplicatas exatas
+pessoas,id nulo,0,Remover (sem chave não há como cruzar)
+causas,Linhas totalmente duplicadas,64832,Remover duplicatas exatas
+causas,id nulo,0,Remover (sem chave não há como cruzar)
+ocorrencias,id repetido (deveria ser único),0,Manter um registro por id
+pessoas,pesid repetido,45970,Investigar (abaixo)
+pessoas,"Registro sem sexo, estado físico e tipo de envolvido",45971,Remover: não serve à análise de perfil
+pessoas,'sexo' como Não Informado/Ignorado,32453,Converter em ausente (NA)
+pessoas,'estado_fisico' como Não Informado/Ignorado,31116,Converter em ausente (NA)
+pessoas,'tipo_envolvido' como Não Informado/Ignorado,0,Converter em ausente (NA)
+pessoas,Idade fora de 0 a 110 anos,457,Converter em ausente (NA)
+pessoas,Ano de fabricação fora de 1950 a 2027,46862,Converter em ausente (NA)
+ocorrencias,Data não reconhecida,0,Manter sem data
+ocorrencias,Ano da data diferente do ano do arquivo,0,Manter e sinalizar
+pessoas,id sem ocorrência correspondente no datatran,0,Manter; chaves do modelo ficam nulas
+ocorrencias,Ocorrência sem nenhuma pessoa registrada,0,Manter
+ocorrencias,Total de mortos diverge da soma na base de pessoas,0,Manter; usar a base de pessoas para indicadores por perfil

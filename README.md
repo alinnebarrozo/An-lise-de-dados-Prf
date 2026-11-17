@@ -1,5 +1,33 @@
 # 🚗 Análise Exploratória de Dados (EDA) — Acidentes nas Rodovias Federais | PRF
 
+## 🛣️ Painel interativo: “Mulher no volante, perigo constante?”
+
+**Acesse o painel:** https://alinnebarrozo.github.io/An-lise-de-dados-Prf/
+
+Painel de *data storytelling* em 5 capítulos (KM 1 a KM 5), construído sobre o modelo estrela gerado pelo ETL deste repositório:
+
+| Capítulo | Pergunta |
+|---|---|
+| KM 1 · O cenário | Qual é o tamanho do problema? |
+| KM 2 · Onde e quando | Os acidentes se concentram em lugares e horários específicos? |
+| KM 3 · Quem se envolve | Qual é o perfil das pessoas envolvidas? |
+| KM 4 · Investigando as diferenças | A diferença entre condutoras e condutores se sustenta? |
+| KM 5 · Descobertas | O ditado se sustenta? |
+
+**Principais resultados:**
+- Mulheres são 11,9% dos condutores envolvidos e 56,8% dos passageiros.
+- Letalidade entre condutores: 1,73% para mulheres e 3,58% para homens.
+- A associação entre sexo e gravidade é muito pequena (V de Cramér = 0,070).
+- Com ajuste por veículo, idade, fase do dia, trecho e dia da semana, a razão de chances de óbito (homem ÷ mulher) cai de 2,09 para 1,76. A diferença diminui, mas persiste.
+- A base não tem dado de exposição (km rodados, condutores por sexo), e os resultados indicam associação, não causa.
+
+**Onde está cada parte:**
+- `docs/`: versão web do painel (HTML + JavaScript + Plotly), publicada no GitHub Pages.
+- `painel_streamlit/`: versão em Python (Streamlit + Plotly), com testes que conferem o painel contra os números do notebook. Veja o `README` da pasta para rodar.
+- `Analise_PRF_ETL_SQL_Modelo.ipynb`: ETL, integração em SQL (DuckDB) e modelo estrela.
+
+---
+
 ## 1. Sobre o projeto
 
 Este projeto tem como objetivo realizar uma Análise Exploratória de Dados (EDA) a partir de dados públicos disponibilizados pela **Polícia Rodoviária Federal (PRF)**, relacionados aos acidentes registrados nas rodovias federais brasileiras.
