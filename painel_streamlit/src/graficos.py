@@ -18,11 +18,11 @@ from .formatos import n, pct
 
 
 def _base(fig: go.Figure, titulo: str, altura: int = 380, subtitulo: str | None = None) -> go.Figure:
-    texto = f"<b>{titulo}</b>"
-    if subtitulo:
-        texto += f"<br><span style='font-size:12.5px;color:{C.COR['tinta_muda']}'>{subtitulo}</span>"
-    fig.update_layout(title=dict(text=texto), height=altura,
-                      margin=dict(t=78 if subtitulo else 56))
+    """Título e subtítulo ficam em layout.meta e são escritos como texto acima do gráfico
+    (componentes.grafico). O Plotly não quebra linha no título e cortava textos longos."""
+    fig.update_layout(meta=dict(titulo=titulo, sub=subtitulo or ""),
+                      height=max(200, altura - (70 if subtitulo else 44)),
+                      margin=dict(t=34))
     return fig
 
 
@@ -106,7 +106,7 @@ def ranking(serie: pd.Series, titulo: str, subtitulo: str, destaque: int = 0,
     fig.update_xaxes(showgrid=False, showticklabels=False, title=rotulo_x,
                      range=[0, float(serie.max()) * 1.18 if total else 1])
     fig.update_yaxes(showgrid=False)
-    fig.update_layout(showlegend=False, margin=dict(r=40))
+    fig.update_layout(showlegend=False, margin=dict(r=40, t=12))
     return _base(fig, titulo, altura or max(260, 34 * total + 90), subtitulo)
 
 
@@ -162,8 +162,9 @@ def mapa_pontos(pontos: pd.DataFrame, titulo: str, subtitulo: str) -> go.Figure:
         fig = go.Figure(go.Scattermapbox(lat=pontos["lat"], lon=pontos["lon"], mode="markers",
                                          marker=marcador, customdata=custom, hovertemplate=hover))
         fig.update_layout(mapbox=dict(style="carto-positron", center=centro, zoom=3.0))
-    fig.update_layout(margin=dict(l=0, r=0, b=0))
-    return _base(fig, titulo, 560, subtitulo)
+    fig = _base(fig, titulo, 560, subtitulo)
+    fig.update_layout(margin=dict(l=0, r=0, b=0, t=8))
+    return fig
 
 
 # ---------------- Comparação por sexo ----------------

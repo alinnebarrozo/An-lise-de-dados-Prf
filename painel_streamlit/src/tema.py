@@ -17,8 +17,6 @@ def registrar_template() -> None:
     t = go.layout.Template()
     t.layout = go.Layout(
         font=dict(family=C.FONTE, size=13, color=C.COR["tinta_2"]),
-        title=dict(font=dict(size=16, color=C.COR["tinta"]), x=0, xanchor="left",
-                   y=0.98, yanchor="top", pad=dict(b=8)),
         paper_bgcolor=C.COR["superficie"],
         plot_bgcolor=C.COR["superficie"],
         margin=dict(l=8, r=16, t=56, b=8),
@@ -151,6 +149,8 @@ section[data-testid="stSidebar"] {{ background: #fff; border-right: 1px solid va
 section[data-testid="stSidebar"] h2 {{ font-size: 15px; letter-spacing: .02em; }}
 div[data-testid="stPlotlyChart"] {{ background: var(--superficie); border: 1px solid var(--borda);
   border-radius: 12px; padding: 6px 8px 2px; }}
+.g-tit h4 {{ margin: 6px 0 0; padding: 0; font-size: 18px; font-weight: 720; line-height: 1.25; color: var(--tinta); }}
+.g-tit p {{ margin: 3px 0 4px; font-size: 13px; line-height: 1.45; color: var(--muda); }}
 .rodape {{ font-size: 12px; color: var(--muda); border-top: 1px solid var(--borda);
   margin-top: 26px; padding-top: 10px; }}
 </style>
