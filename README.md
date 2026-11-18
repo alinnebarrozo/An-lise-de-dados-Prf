@@ -2,7 +2,7 @@
 
 ## 🛣️ Painel interativo: “Mulher no volante, perigo constante?”
 
-**Acesse o painel:** https://alinnebarrozo.github.io/An-lise-de-dados-Prf/
+**Acesse o painel:** https://alinnebarrozo.github.io/Analise_dados_Prf/
 
 Painel de *data storytelling* em 5 capítulos (KM 1 a KM 5), construído sobre o modelo estrela gerado pelo ETL deste repositório:
 
