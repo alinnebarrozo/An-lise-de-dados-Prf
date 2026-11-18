@@ -85,6 +85,10 @@ def nota(texto: str) -> None:
 
 def grafico(fig, dados: pd.DataFrame | None = None, chave: str | None = None) -> None:
     """Mostra a figura e, se houver, a tabela por trás dela (acessível sem passar o mouse)."""
+    meta = fig.layout.meta if isinstance(fig.layout.meta, dict) else {}
+    if meta.get("titulo"):
+        sub = f'<p>{meta["sub"]}</p>' if meta.get("sub") else ""
+        html_bloco(f'<div class="g-tit"><h4>{meta["titulo"]}</h4>{sub}</div>')
     st.plotly_chart(fig, use_container_width=True, config=CONFIG_PLOTLY, key=chave)
     if dados is not None:
         with st.expander("Ver os números deste gráfico"):

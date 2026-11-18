@@ -100,7 +100,11 @@ nav.caps a[aria-current="page"] span { color: var(--faixa); }
 
 .cartao { background: var(--superficie); border: 1px solid var(--borda); border-radius: 12px; padding: 8px 10px 6px; margin: 0 0 12px; min-width: 0; }
 figure.cartao { margin: 0 0 12px; }
-.grafico { width: 100%; min-height: 260px; }
+.grafico { width: 100%; min-height: 200px; }
+.g-tit { padding: 8px 6px 0; }
+.g-tit h4 { margin: 0; font-family: var(--display); font-size: 21px; font-weight: 700; line-height: 1.2; color: var(--tinta); text-wrap: balance; }
+.g-tit p { margin: 4px 0 0; font-size: 13px; line-height: 1.45; color: var(--muda); }
+@media (max-width: 600px) { .g-tit h4 { font-size: 19px; } }
 details summary { cursor: pointer; font-size: 12.5px; color: var(--placa); font-weight: 700; padding: 6px 4px; }
 details.cartao summary { font-size: 14px; color: var(--tinta); padding: 8px 6px; }
 .tab-wrap { overflow-x: auto; max-height: 340px; overflow-y: auto; }
@@ -336,7 +340,12 @@ h3.sub { font-family: var(--display); font-size: 23px; margin: 22px 0 6px; font-
     chips(r);
     const out = CAP.capitulos[capAtual()]({ D, f, r, S, pre: D.pre, aplicarCom: (ff) => PRF.aplicar(D, ff) });
     alvo.innerHTML = out.html;
-    for (const g of out.figs) { const el = document.getElementById(g.id); if (el) Plotly.newPlot(el, g.data, g.layout, CONFIG); }
+    for (const g of out.figs) {
+      const el = document.getElementById(g.id); if (!el) continue;
+      const cab = document.getElementById(g.id + "-tit"), m = g.layout.meta || {};
+      if (cab) cab.innerHTML = `<h4>${m.titulo || ""}</h4>${m.sub ? `<p>${m.sub}</p>` : ""}`;
+      Plotly.newPlot(el, g.data, g.layout, CONFIG);
+    }
     navegar();
   }
   let pendente = null;

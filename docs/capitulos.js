@@ -40,7 +40,7 @@
     descoberta: (t) => `<div class="descoberta"><span class="tag">Descoberta</span>${t}</div>`,
     nota: (t) => `<p class="nota">${t}</p>`,
     vazio: () => `<div class="vazio">Nenhum registro no recorte atual. Afrouxe algum filtro ou use <b>Limpar filtros</b>.</div>`,
-    grafico: (id, tabela, classe = "") => `<figure class="cartao ${classe}"><div class="grafico" id="${id}"></div>${tabela ? `<details><summary>Ver os números deste gráfico</summary>${tabela}</details>` : ""}</figure>`,
+    grafico: (id, tabela, classe = "") => `<figure class="cartao ${classe}"><figcaption class="g-tit" id="${id}-tit"></figcaption><div class="grafico" id="${id}"></div>${tabela ? `<details><summary>Ver os números deste gráfico</summary>${tabela}</details>` : ""}</figure>`,
     tabela: (cab, linhas) => `<div class="tab-wrap"><table><thead><tr>${cab.map((c) => `<th>${c}</th>`).join("")}</tr></thead><tbody>${
       linhas.map((l) => `<tr>${l.map((c, j) => `<td${j ? ' class="num"' : ""}>${c}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`,
     seg: (acao, opcoes, atual, rotulo) => `<div class="seg" role="group" aria-label="${rotulo}"><span class="seg-rot">${rotulo}</span>${
@@ -54,12 +54,14 @@
   };
 
   // ---------------- Figuras ----------------
+  /* O título e o subtítulo NÃO vão para o Plotly (ele não quebra linha e corta textos longos).
+     Ficam em layout.meta e a página os escreve como texto HTML acima do gráfico. */
   function base(titulo, sub, altura, extra = {}) {
-    const t = `<b>${titulo}</b>` + (sub ? `<br><span style="font-size:12.5px;color:${COR.muda}">${sub}</span>` : "");
+    const alturaSemTitulo = Math.max(200, altura - (sub ? 70 : 44));
     return Object.assign({
-      title: { text: t, x: 0, xanchor: "left", y: 0.985, yanchor: "top", font: { size: 16, color: COR.tinta, family: FONTE } },
+      meta: { titulo, sub: sub || "" },
       font: { family: FONTE, size: 13, color: COR.tinta2 }, paper_bgcolor: COR.sup, plot_bgcolor: COR.sup,
-      height: altura, margin: { l: 8, r: 16, t: sub ? 84 : 58, b: 8 }, separators: ",.",
+      height: alturaSemTitulo, margin: { l: 8, r: 16, t: 34, b: 8 }, separators: ",.",
       hoverlabel: { bgcolor: "#fff", bordercolor: COR.eixo, font: { family: FONTE, size: 12, color: COR.tinta } },
       legend: { orientation: "h", yanchor: "bottom", y: 1.0, xanchor: "left", x: 0, font: { size: 12 } },
       xaxis: { showgrid: false, linecolor: COR.eixo, zeroline: false, tickfont: { color: COR.muda }, automargin: true },
@@ -76,7 +78,7 @@
       l.yaxis = Object.assign({}, l.yaxis, { domain: [0.56, 0.94], rangemode: "tozero" });
       l.yaxis2 = Object.assign({}, l.yaxis, { domain: [0, 0.38], rangemode: "tozero" });
       l.xaxis = Object.assign({}, l.xaxis, { anchor: "y", matches: "x2", showticklabels: false, type: "date" });
-      l.xaxis2 = Object.assign({}, base("", "", 0).xaxis, { anchor: "y2", type: "date", tickformat: "%b/%y", dtick: "M3" });
+      l.xaxis2 = Object.assign({}, base("", "", 300).xaxis, { anchor: "y2", type: "date", tickformat: "%b/%y", dtick: "M3" });
       l.showlegend = false; l.hovermode = "x unified";
       l.annotations = [
         { text: "Ocorrências por mês", xref: "paper", yref: "paper", x: 0, y: 0.98, showarrow: false, xanchor: "left", font: { size: 12, color: COR.tinta2 } },
@@ -109,7 +111,7 @@
         text: d.map((x) => (formato === "pct" ? pct(x.valor) : n(x.valor))), textposition: "outside", cliponaxis: false,
         textfont: { color: COR.tinta2, size: 12 }, customdata: d.map((x) => x.n),
         hovertemplate: "%{y}<br><b>%{text}</b>" + (formato === "pct" ? " · %{customdata:,.0f} ocorrências" : "") + "<extra></extra>" }],
-      layout: ajusta(ajusta(base(titulo, sub, altura || Math.max(260, 34 * k + 100), { showlegend: false, margin: { l: 8, r: 48, t: 84, b: 8 } }),
+      layout: ajusta(ajusta(base(titulo, sub, altura || Math.max(260, 34 * k + 100), { showlegend: false, margin: { l: 8, r: 48, t: 12, b: 8 } }),
         "xaxis", { showticklabels: false, range: [0, max * 1.2] }), "yaxis", { showgrid: false }) };
     },
     calor(z, titulo, sub, rotulo, fmt) {
@@ -132,7 +134,7 @@
       const fat = cels.map((c) => c.pctFatais).sort((a, b) => a - b);
       const p95 = fat.length ? fat[Math.floor(0.95 * (fat.length - 1))] : 1;
       const ord = cels.slice().sort((a, b) => a.ocorrencias - b.ocorrencias); // grandes por cima
-      const l = base(titulo, sub, 600, { showlegend: false, margin: { l: 4, r: 4, t: 84, b: 4 }, dragmode: "pan" });
+      const l = base(titulo, sub, 600, { showlegend: false, margin: { l: 4, r: 4, t: 8, b: 4 }, dragmode: "pan" });
       l.xaxis = { visible: false, range: [-74.5, -33], fixedrange: false };
       l.yaxis = { visible: false, range: [-34.5, 5.8], scaleanchor: "x", scaleratio: 1 };
       return { data: [{ type: "scattergl", mode: "markers", x: ord.map((c) => c.lon), y: ord.map((c) => c.lat),
